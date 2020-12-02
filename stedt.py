@@ -1,6 +1,6 @@
 import requests, json
 from lxml import html
-from requests_html import AsyncHTMLSession
+from helper import multi_request
 
 
 def semshift(search_term):
@@ -14,23 +14,13 @@ def semshift(search_term):
         if len(ids) == 0:
             return []
         urls = [f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/etymon/{id}' for id in ids]
-        session = AsyncHTMLSession()
-
-        scrape_fns = []
-        for url in urls:
-            async def get_site_content(url=url):
-                return await session.get(url)
-
-            scrape_fns.append(get_site_content)
-
-        results = session.run(*scrape_fns)
+        results = multi_request(urls)
 
         for r2 in results:
             tree2 = html.fromstring(r2.content)
             meanings += tree2.xpath('/html/body/table[2]/tbody/tr/td[5]/text()')
 
-        session.close()
     except json.decoder.JSONDecodeError:
         pass
 
-    return meanings
+    return list(set(meanings))
