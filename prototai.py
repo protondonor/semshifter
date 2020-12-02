@@ -21,6 +21,6 @@ def semshift(search_term):
     }
 
     r = requests.post('http://sealang.net/crcl/proto/htm.pl', data=payload)
-    tree = html.fromstring(r.content)
+    tree = html.fromstring(r.content.decode('utf-8', 'ignore'))
     return [elem.strip('"') for elem in [elem.strip() for elem in tree.xpath('/html/body/htm/font/text()')]
             if len(elem) > 0 and elem[0] == elem[-1] and elem[0] == '"']
