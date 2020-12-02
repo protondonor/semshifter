@@ -2,6 +2,8 @@ from requests_html import AsyncHTMLSession
 
 
 def multi_request(urls, headers=None):
+    if len(urls) == 0:
+        return []
     if headers is None:
         headers = {}
     session = AsyncHTMLSession()
