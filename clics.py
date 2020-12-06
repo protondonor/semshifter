@@ -15,3 +15,8 @@ def semshift(search_term):
         meanings += tree.xpath('//*[@class="Edge"]/text()')
 
     return meanings
+
+
+def reverse(search_term):
+    # CLICS is bidirectional
+    return semshift(search_term)

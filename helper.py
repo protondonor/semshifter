@@ -19,3 +19,10 @@ def multi_request(urls, headers=None):
     session.close()
 
     return results
+
+
+def first_numeric(datum):
+    try:
+        return int(next(x for x in datum.split(',') if x.isnumeric()))
+    except StopIteration:
+        return 0

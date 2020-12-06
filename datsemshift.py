@@ -5,23 +5,46 @@ from lxml import html
 
 
 class DatSemShift:
-    dss_input_phrases = []
+    cached_request = None
+    source_phrases = []
+    target_phrases = []
 
-    def populate_dss_input_phrases(self):
-        r = requests.get("http://datsemshift.ru/search")
-        tree = html.fromstring(r.content)
-        self.dss_input_phrases = tree.xpath('//*[@id="source"]/option/text()')
+    def populate_sources(self):
+        if self.cached_request == None:
+            r = requests.get("http://datsemshift.ru/search")
+            self.cached_request = html.fromstring(r.content)
+        self.source_phrases = self.cached_request.xpath('//*[@id="source"]/option/text()')
+
+    def populate_targets(self):
+        if self.cached_request == None:
+            r = requests.get("http://datsemshift.ru/search")
+            self.cached_request = html.fromstring(r.content)
+        self.target_phrases = self.cached_request.xpath('//*[@id="target"]/option/text()')
 
     def semshift(self, search_term):
-        if len(self.dss_input_phrases) == 0:
-            self.populate_dss_input_phrases()
+        if len(self.source_phrases) == 0:
+            self.populate_sources()
         urls = [f'http://datsemshift.ru/search?source={quote(input)}'
-                for input in self.dss_input_phrases if search_term in input]
+                for input in self.source_phrases if search_term in input]
 
         results = multi_request(urls)
 
         meanings = [item for sublist in
                     [html.fromstring(r.content).xpath('/html/body/main/div/table/tr/td[5]/text()') for r in results]
                     for item in sublist if item != 'Meaning 2']
+
+        return meanings
+
+    def reverse(self, search_term):
+        if len(self.target_phrases) == 0:
+            self.populate_targets()
+        urls = [f'http://datsemshift.ru/search?target={quote(input)}'
+                for input in self.target_phrases if search_term in input]
+
+        results = multi_request(urls)
+
+        meanings = [item for sublist in
+                    [html.fromstring(r.content).xpath('/html/body/main/div/table/tr/td[3]/text()') for r in results]
+                    for item in sublist if item != 'Meaning 1']
 
         return meanings
