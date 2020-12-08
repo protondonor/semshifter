@@ -9,7 +9,7 @@ def semshift(search_term):
 
 
 def reverse(search_term):
-    meanings = pollex.reverse(search_term) + stedt.reverse(search_term) + clics.reverse(search_term) + \
-               dss.reverse(search_term)
+    meanings = csd.reverse(search_term) + pollex.reverse(search_term) + stedt.reverse(search_term) + \
+               clics.reverse(search_term) + dss.reverse(search_term)
 
     return list(set(map(str.lower, meanings)))

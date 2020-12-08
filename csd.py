@@ -32,3 +32,10 @@ def semshift(search_term):
     except json.decoder.JSONDecodeError:
         pass
     return list(set(meanings))
+
+
+def reverse(search_term):
+    r = requests.get(f'https://csd.clld.org/values?sEcho=32&iColumns=6&sColumns=lemma%2Clanguage%2Cname%2Cphonetic%2Cdescription%2Ccomment&iDisplayStart=0&iDisplayLength=100&sSearch_4={search_term}',
+                     headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
+
+    return [html.fromstring(item[0]).attrib['title'].split('/')[-1] for item in json.loads(r.content)['aaData']]
