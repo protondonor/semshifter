@@ -1,3 +1,5 @@
+import re
+
 from requests_html import AsyncHTMLSession
 
 
@@ -26,3 +28,8 @@ def first_numeric(datum):
         return int(next(x for x in datum.split(',') if x.isnumeric()))
     except StopIteration:
         return 0
+
+
+def clean_shift(raw_output):
+  cleaned_output = [word.strip('[ ]') for middle in raw_output for word in re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*(\)|\])','',middle).replace('?','')) if word.strip('[ ]')]
+  return list(set(cleaned_output))
