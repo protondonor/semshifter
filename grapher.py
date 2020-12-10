@@ -27,20 +27,23 @@ digraph g{{
 if __name__ == "__main__":
   args = sys.argv[1:]
   word = ''
-  if args:
+  try:
+    rounds = int(args[0])
+  except ValueError:
+    word = args[0]
     try:
-      rounds = int(args[0])
-    except ValueError:
-      word = args[0]
-      try:
-        rounds = int(args[1])
-      except IndexError:
-        print("defaulting to 2 rounds")
-        rounds = 2
-  if word:
-      print(graphviz_descendants(word, rounds))
-  else:
-      while(word != "quit()"):
+      rounds = int(args[1])
+    except IndexError:
+      print("defaulting to 2 rounds")
+      rounds = 2
+  except IndexError:
+    print("defaulting to 2 rounds")
+    rounds = 2
+  finally:
+    if word:
+        print(graphviz_descendants(word, rounds))
+    else:
+        while(word != "quit()"):
           word = input("type in a word to do {} rounds with, or else 'quit()' to quit: ".format(rounds))
           if word != "quit()":
-              print(graphviz_descendants(word, rounds))
+            print(graphviz_descendants(word, rounds))
