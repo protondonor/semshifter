@@ -33,3 +33,9 @@ def first_numeric(datum):
 def clean_shift(raw_output):
   cleaned_output = [word.strip('[ ]') for middle in raw_output for word in re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*(\)|\])','',middle).replace('?','')) if word.strip('[ ]')]
   return list(set(cleaned_output))
+
+
+def remove_suffix(string, suffix):
+    if string.endswith(suffix):
+        return string[:-len(suffix)]
+    return string
