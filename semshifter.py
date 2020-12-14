@@ -9,8 +9,17 @@ def semshift(search_term):
     return clean_shift(set(map(str.lower, meanings)))
 
 
-def reverse(search_term):
-    meanings = csd.reverse(search_term) + pollex.reverse(search_term) + stedt.reverse(search_term) + \
-               clics.reverse(search_term) + dss.reverse(search_term)
+def reverse(search_term, dictionaries=None):
+    if dictionaries is None:
+        dictionaries = ['csd', 'pollex', 'stedt', 'clics']
+    meanings = []
+    if 'csd' in dictionaries:
+        meanings += csd.reverse(search_term)
+    if 'pollex' in dictionaries:
+        meanings += pollex.reverse(search_term)
+    if 'stedt' in dictionaries:
+        meanings += stedt.reverse(search_term)
+    if 'clics' in dictionaries:
+        meanings += clics.reverse(search_term)
 
     return clean_shift(set(map(str.lower, meanings)))
