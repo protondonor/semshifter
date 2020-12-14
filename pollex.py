@@ -23,7 +23,10 @@ def reverse(search_term):
     for url in urls:
         r2 = requests.get(url)
         tree2 = html.fromstring(r2.content)
-        entry = tree2.xpath('//*[@id="content"]/table[1]/tr[1]/td/text()')[0]
-        if len(entry.strip()) > 0:
-            meanings.append(entry.strip())
+        try:
+            entry = tree2.xpath('//*[@id="content"]/table[1]/tr[1]/td/text()')[0]
+            if len(entry.strip()) > 0:
+                meanings.append(entry.strip())
+        except IndexError:
+            pass
     return meanings
