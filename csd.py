@@ -18,11 +18,13 @@ def semshift(search_term):
 
     meanings = []
     try:
-        ids = [html.fromstring(item[1]).attrib['href'].split('/')[-1] for item in json.loads(r.content)['aaData']]
-        if len(ids) == 0:
+        etyma = [html.fromstring(item[1]).attrib['href'].split('/')[-1] for item in json.loads(r.content)['aaData']]
+        if len(etyma) == 0:
             return []
 
-        urls = [f'https://csd.clld.org/values?parameter={id}&sEcho=1&iColumns=6&sColumns=language%2Cname%2Cphonetic%2Cdescription%2Ccomment%2Csources' for id in ids]
+        urls = [
+            f'https://csd.clld.org/values?parameter={etym}&sEcho=1&iColumns=6&sColumns=language%2Cname%2Cphonetic%2Cdescription%2Ccomment%2Csources'
+            for etym in etyma]
         results = multi_request(urls,
                                 headers={'accept': 'application/json',
                                          'x-requested-with': 'XMLHttpRequest'})
@@ -35,7 +37,9 @@ def semshift(search_term):
 
 
 def reverse(search_term):
-    r = requests.get(f'https://csd.clld.org/values?sEcho=32&iColumns=6&sColumns=lemma%2Clanguage%2Cname%2Cphonetic%2Cdescription%2Ccomment&iDisplayStart=0&iDisplayLength=100&sSearch_4={search_term}',
-                     headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
+    r = requests.get(
+        f'https://csd.clld.org/values?sEcho=32&iColumns=6&sColumns=lemma%2Clanguage%2Cname%2Cphonetic%2Cdescription'
+        f'%2Ccomment&iDisplayStart=0&iDisplayLength=100&sSearch_4={search_term}',
+        headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
 
     return [html.fromstring(item[0]).attrib['title'].split('/')[-1] for item in json.loads(r.content)['aaData']]

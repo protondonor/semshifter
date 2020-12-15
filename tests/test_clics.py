@@ -6,7 +6,6 @@ from clics import semshift
 
 
 class TestClics(unittest.TestCase):
-
     clics_html = Mock()
     clics_html.content = """<html>
 <body>
@@ -38,19 +37,19 @@ class TestClics(unittest.TestCase):
 </html>
 """
     clics_json = json.dumps({
-                'aaData': [
-                    [
-                        'more',
-                        '<a href="http://zombo.com/1">closed</a>',
-                        'some', 'other', 'stuff', 'idk'
-                    ],
-                    [
-                        'more',
-                        '<a href="http://zombo.com/2">close (eyes)</a>',
-                        'some', 'other', 'stuff', 'idk'
-                    ]
-                ]
-            })
+        'aaData': [
+            [
+                'more',
+                '<a href="http://zombo.com/1">closed</a>',
+                'some', 'other', 'stuff', 'idk'
+            ],
+            [
+                'more',
+                '<a href="http://zombo.com/2">close (eyes)</a>',
+                'some', 'other', 'stuff', 'idk'
+            ]
+        ]
+    })
 
     def test_semshift(self):
         with patch('requests.get') as mock_r, patch('clics.multi_request') as mock_multi_r:
@@ -60,8 +59,11 @@ class TestClics(unittest.TestCase):
             meanings = semshift("close")
             self.assertSetEqual(set(meanings), {"ASH", "EARTH (SOIL)", "FOG", "SMOKE (EXHAUST)"})
 
-            mock_r.assert_called_once_with(f'https://clics.clld.org/parameters?sEcho=9&iColumns=7&sColumns=%23%2Cname%2C%23%2Ccount_varieties%2Ccount_colexifications%2Cinfomap%2Csubgraph&iDisplayStart=0&iDisplayLength=100&mDataProp_1=1&sSearch_1=close',
-                     headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
+            mock_r.assert_called_once_with(
+                f'https://clics.clld.org/parameters?sEcho=9&iColumns=7&sColumns=%23%2Cname%2C%23%2C'
+                f'count_varieties%2Ccount_colexifications%2Cinfomap%2Csubgraph&iDisplayStart=0&'
+                f'iDisplayLength=100&mDataProp_1=1&sSearch_1=close',
+                headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
 
             mock_multi_r.assert_called_once_with([
                 "http://zombo.com/1",

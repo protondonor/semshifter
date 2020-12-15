@@ -10,7 +10,7 @@ def multi_request(urls, headers=None):
         headers = {}
     session = AsyncHTMLSession()
 
-    scrape_fns= []
+    scrape_fns = []
     for url in urls:
         async def get_site_content(url=url):
             return await session.get(url, headers=headers)
@@ -31,8 +31,10 @@ def first_numeric(datum):
 
 
 def clean_shift(raw_output):
-  cleaned_output = [word.strip('[ ]') for middle in raw_output for word in re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*(\)|\])','',middle).replace('?','')) if word.strip('[ ]')]
-  return list(set(cleaned_output))
+    cleaned_output = [word.strip('[ ]') for middle in raw_output for word in
+                      re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*(\)|\])', '', middle).replace('?', '')) if
+                      word.strip('[ ]')]
+    return list(set(cleaned_output))
 
 
 def remove_suffix(string, suffix):

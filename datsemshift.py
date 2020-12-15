@@ -10,13 +10,13 @@ class DatSemShift:
     target_phrases = []
 
     def populate_sources(self):
-        if self.cached_request == None:
+        if self.cached_request is None:
             r = requests.get("http://datsemshift.ru/search")
             self.cached_request = html.fromstring(r.content)
         self.source_phrases = self.cached_request.xpath('//*[@id="source"]/option/text()')
 
     def populate_targets(self):
-        if self.cached_request == None:
+        if self.cached_request is None:
             r = requests.get("http://datsemshift.ru/search")
             self.cached_request = html.fromstring(r.content)
         self.target_phrases = self.cached_request.xpath('//*[@id="target"]/option/text()')
@@ -24,8 +24,8 @@ class DatSemShift:
     def semshift(self, search_term):
         if len(self.source_phrases) == 0:
             self.populate_sources()
-        urls = [f'http://datsemshift.ru/search?source={quote(input)}'
-                for input in self.source_phrases if search_term in input]
+        urls = [f'http://datsemshift.ru/search?source={quote(source_phrase)}'
+                for source_phrase in self.source_phrases if search_term in source_phrase]
 
         results = multi_request(urls)
 

@@ -1,6 +1,7 @@
 import requests
 from lxml import html
 
+
 def semshift(search_term):
     r = requests.get(f'https://pollex.shh.mpg.de/search/?query={search_term}&field=protoform')
     tree = html.fromstring(r.content)

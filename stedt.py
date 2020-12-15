@@ -5,15 +5,16 @@ from helper import multi_request, first_numeric
 
 def semshift(search_term):
     r = requests.get(
-        f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/search/ajax?tbl=etyma&s={search_term}&f=&lg=&as_values_lg-auto=',
+        f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/search/ajax?tbl=etyma&s={search_term}'
+        f'&f=&lg=&as_values_lg-auto=',
         headers={'accept': 'application/json'})
     meanings = []
     try:
-        ids = [item[0] for item in json.loads(r.content)['data']]
+        etyma = [item[0] for item in json.loads(r.content)['data']]
 
-        if len(ids) == 0:
+        if len(etyma) == 0:
             return []
-        urls = [f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/etymon/{id}' for id in ids]
+        urls = [f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/etymon/{etym}' for etym in etyma]
         results = multi_request(urls)
 
         for r2 in results:
@@ -34,7 +35,7 @@ def reverse(search_term):
     r = requests.get(
         f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/search/ajax?tbl=lexicon&s={search_term}&f=&lg=&as_values_lg-auto=',
         headers={'accept': 'application/json'})
-    proto_nums = set([first_numeric(elem[1]) for elem in json.loads(r.content)['data'] if elem[1] != None])
+    proto_nums = set([first_numeric(elem[1]) for elem in json.loads(r.content)['data'] if elem[1] is not None])
     proto_nums.discard(0)
 
     if len(proto_nums) == 0:
@@ -49,5 +50,3 @@ def reverse(search_term):
         meanings.append(trim(tree2.xpath('/html/body/table[1]/tr/td/h1/text()')[0]))
 
     return meanings
-
-reverse("coarse")
