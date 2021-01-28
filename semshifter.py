@@ -13,7 +13,7 @@ def semshift(search_term, dictionaries=None, trace=False):
     if 'pollex' in dictionaries:
         meanings['pollex'] = clean_shift(pollex.semshift(search_term))
     if 'stedt' in dictionaries:
-        meanings['prototai'] = clean_shift(stedt.semshift(search_term))
+        meanings['stedt'] = clean_shift(stedt.semshift(search_term))
     if 'clics' in dictionaries:
         meanings['clics'] = clean_shift(clics.semshift(search_term))
     if 'dss' in dictionaries:
