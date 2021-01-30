@@ -1,6 +1,7 @@
 import requests, json
 from lxml import html
 from helper import multi_request, first_numeric
+from string import ascii_uppercase as UPPER
 
 
 def semshift(search_term):
@@ -28,7 +29,11 @@ def semshift(search_term):
 
 
 def trim(entry):
-    return entry.split(maxsplit=3)[3].lower()
+    # ditch the first ('#xyzw') and second ('PTB') substrings
+    split = entry.split()[2:]
+    for i, s in enumerate(split):
+        if s[0] in UPPER:
+            return ' '.join(split[i:]).lower()
 
 
 def reverse(search_term):
