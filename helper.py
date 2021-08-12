@@ -3,7 +3,7 @@ import re
 from requests_html import AsyncHTMLSession
 
 
-def multi_request(urls, headers=None):
+async def multi_request(urls, headers=None):
     if len(urls) == 0:
         return []
     if headers is None:
@@ -17,7 +17,7 @@ def multi_request(urls, headers=None):
 
         scrape_fns.append(get_site_content)
 
-    results = session.run(*scrape_fns)
+    results = await session.run(*scrape_fns)
     session.close()
 
     return results

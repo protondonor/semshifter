@@ -4,7 +4,7 @@ from helper import multi_request, first_numeric
 from string import ascii_uppercase as UPPER
 
 
-def semshift(search_term):
+async def semshift(search_term):
     r = requests.get(
         f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/search/ajax?tbl=etyma&s={search_term}'
         f'&f=&lg=&as_values_lg-auto=',
@@ -16,7 +16,7 @@ def semshift(search_term):
         if len(etyma) == 0:
             return []
         urls = [f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/etymon/{etym}' for etym in etyma]
-        results = multi_request(urls)
+        results = await multi_request(urls)
 
         for r2 in results:
             tree2 = html.fromstring(r2.content)
@@ -36,7 +36,7 @@ def trim(entry):
             return ' '.join(split[i:]).lower()
 
 
-def reverse(search_term):
+async def reverse(search_term):
     r = requests.get(
         f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/search/ajax?tbl=lexicon&s={search_term}&f=&lg=&as_values_lg-auto=',
         headers={'accept': 'application/json'})
@@ -48,7 +48,7 @@ def reverse(search_term):
 
     meanings = []
     urls = [f'https://stedt.berkeley.edu/~stedt-cgi/rootcanal.pl/etymon/{num}' for num in proto_nums]
-    results = multi_request(urls)
+    results = await multi_request(urls)
 
     for r2 in results:
         tree2 = html.fromstring(r2.content)

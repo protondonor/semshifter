@@ -11,7 +11,7 @@ def lemmas(search_term):
     return [item[4] for item in json.loads(r.content)['aaData']]
 
 
-def semshift(search_term):
+async def semshift(search_term):
     r = requests.get(
         f'https://csd.clld.org/parameters?sEcho=9&iColumns=4&sColumns=more%2Cname%2Csemantic_domain%2Cpart_of_speech&sSearch_1={search_term}&bRegex_1=false&bSearchable_1=true',
         headers={'accept': 'application/json', 'x-requested-with': 'XMLHttpRequest'})
@@ -25,9 +25,9 @@ def semshift(search_term):
         urls = [
             f'https://csd.clld.org/values?parameter={etym}&sEcho=1&iColumns=6&sColumns=language%2Cname%2Cphonetic%2Cdescription%2Ccomment%2Csources'
             for etym in etyma]
-        results = multi_request(urls,
-                                headers={'accept': 'application/json',
-                                         'x-requested-with': 'XMLHttpRequest'})
+        results = await multi_request(urls,
+                                      headers={'accept': 'application/json',
+                                      'x-requested-with': 'XMLHttpRequest'})
 
         for result in results:
             meanings += [item[-3] for item in json.loads(result.content)['aaData']]

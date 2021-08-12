@@ -21,13 +21,13 @@ class DatSemShift:
             self.cached_request = html.fromstring(r.content)
         self.target_phrases = self.cached_request.xpath('//*[@id="target"]/option/text()')
 
-    def semshift(self, search_term):
+    async def semshift(self, search_term):
         if len(self.source_phrases) == 0:
             self.populate_sources()
         urls = [f'http://datsemshift.ru/search?source={quote(source_phrase)}'
                 for source_phrase in self.source_phrases if search_term in source_phrase]
 
-        results = multi_request(urls)
+        results = await multi_request(urls)
 
         meanings = [item for sublist in
                     [html.fromstring(r.content).xpath('/html/body/main/div/table/tr/td[5]/text()') for r in results]
@@ -35,13 +35,13 @@ class DatSemShift:
 
         return meanings
 
-    def reverse(self, search_term):
+    async def reverse(self, search_term):
         if len(self.target_phrases) == 0:
             self.populate_targets()
         urls = [f'http://datsemshift.ru/search?target={quote(input)}'
                 for input in self.target_phrases if search_term in input]
 
-        results = multi_request(urls)
+        results = await multi_request(urls)
 
         meanings = [item for sublist in
                     [html.fromstring(r.content).xpath('/html/body/main/div/table/tr/td[3]/text()') for r in results]
