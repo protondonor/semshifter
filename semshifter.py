@@ -1,7 +1,9 @@
 import csd, pollex, prototai, clics, stedt, datsemshift
 from helper import clean_shift
+from requests_cache import install_cache
 
 dss = datsemshift.DatSemShift()
+install_cache(cache_name='semshift', backend='sqlite', expire_after=604800)
 
 
 def semshift(search_term, dictionaries=None, trace=False):
