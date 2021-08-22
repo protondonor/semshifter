@@ -2,6 +2,10 @@ import re
 
 import requests
 from requests_html import AsyncHTMLSession
+from requests_cache import CacheMixin
+
+class CachedAsyncHTMLSession(CacheMixin, AsyncHTMLSession):
+    """"Session with features of both CachedSession and AsyncHTMLSession"""
 
 
 def multi_request(urls, headers=None):
@@ -10,7 +14,7 @@ def multi_request(urls, headers=None):
     if headers is None:
         headers = {}
     try:
-        session = AsyncHTMLSession()
+        session = CachedAsyncHTMLSession()
 
         scrape_fns = []
         for url in urls:
