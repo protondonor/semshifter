@@ -41,7 +41,7 @@ def first_numeric(datum):
 
 def clean_shift(raw_output):
     cleaned_output = [word.strip('[ ]') for middle in map(str.lower, raw_output) for word in
-                      re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*(\)|\])', '', middle).replace('?', '')) if
+                      re.split(r', or|,|\\|/|;|\.', re.sub(r'( \[|\().*([)\]])', '', middle).replace('?', '')) if
                       word.strip('[ ]')]
     return list(set(cleaned_output))
 
