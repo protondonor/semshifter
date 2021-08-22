@@ -50,3 +50,7 @@ def remove_suffix(string, suffix):
     if string.endswith(suffix):
         return string[:-len(suffix)]
     return string
+
+
+def french(entry):
+    return re.search('[àèìòùâêîôûœ]', entry) is not None

@@ -1,8 +1,9 @@
 import requests
 from lxml import html
 
+from helper import french
 
-def semshift(search_term):
+def semshift(search_term, include_french=False):
     r = requests.get(f'https://pollex.shh.mpg.de/search/?query={search_term}&field=protoform')
     tree = html.fromstring(r.content)
     meanings = []
@@ -10,12 +11,12 @@ def semshift(search_term):
         r2 = requests.get(f"https://pollex.shh.mpg.de{elem.attrib['href']}")
         tree2 = html.fromstring(r2.content)
         for entry in tree2.xpath('//*[@id="content"]/table[2]/tr/td[3]/text()'):
-            if len(entry.strip()) > 0:
+            if len(entry.strip()) > 0 and (include_french or not french(entry.strip())):
                 meanings.append(entry.strip())
     return meanings
 
 
-def reverse(search_term):
+def reverse(search_term, include_french=False):
     r = requests.get(f'https://pollex.shh.mpg.de/search/?query={search_term}&field=entry')
     tree = html.fromstring(r.content)
     meanings = []
@@ -26,7 +27,7 @@ def reverse(search_term):
         tree2 = html.fromstring(r2.content)
         try:
             entry = tree2.xpath('//*[@id="content"]/table[1]/tr[1]/td/text()')[0]
-            if len(entry.strip()) > 0:
+            if len(entry.strip()) > 0 and (include_french or not french(entry.strip())):
                 meanings.append(entry.strip())
         except IndexError:
             pass
