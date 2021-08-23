@@ -28,7 +28,8 @@ def multi_request(urls, headers=None):
 
         return results
     except RuntimeError as e:
-        if str(e) == 'This event loop is already running':
+        if 'event loop' in str(e):
+            print(f'{str(e)}; falling back to synchronous requests')
             return [requests.post(url) for url in urls]
 
 
