@@ -6,6 +6,7 @@ import datsemshift
 import pollex
 import prototai
 import stedt
+import logging
 from helper import clean_shift
 
 dss = datsemshift.DatSemShift()
@@ -17,29 +18,29 @@ def semshift(search_term, dictionaries=None, trace=False):
         dictionaries = ['csd', 'pollex', 'prototai', 'clics', 'stedt', 'dss']
     meanings = {}
     if 'csd' in dictionaries:
-        print("starting csd")
+        logging.log(logging.INFO, "starting csd")
         meanings['csd'] = clean_shift(csd.semshift(search_term))
-        print("exiting csd")
+        logging.log(logging.INFO, "exiting csd")
     if 'pollex' in dictionaries:
-        print("starting pollex")
+        logging.log(logging.INFO, "starting pollex")
         meanings['pollex'] = clean_shift(pollex.semshift(search_term))
-        print("exiting pollex")
+        logging.log(logging.INFO, "exiting pollex")
     if 'stedt' in dictionaries:
-        print("starting stedt")
+        logging.log(logging.INFO, "starting stedt")
         meanings['stedt'] = clean_shift(stedt.semshift(search_term))
-        print("exiting stedt")
+        logging.log(logging.INFO, "exiting stedt")
     if 'clics' in dictionaries:
-        print("starting clics")
+        logging.log(logging.INFO, "starting clics")
         meanings['clics'] = clean_shift(clics.semshift(search_term))
-        print("exiting clics")
+        logging.log(logging.INFO, "exiting clics")
     if 'dss' in dictionaries:
-        print("starting dss")
+        logging.log(logging.INFO, "starting dss")
         meanings['dss'] = clean_shift(dss.semshift(search_term))
-        print("exiting dss")
+        logging.log(logging.INFO, "exiting dss")
     if 'prototai' in dictionaries:
-        print("starting prototai")
+        logging.log(logging.INFO, "starting prototai")
         meanings['prototai'] = clean_shift(prototai.semshift(search_term))
-        print("exiting prototai")
+        logging.log(logging.INFO, "exiting prototai")
     if trace:
         return meanings
 
@@ -51,15 +52,25 @@ def reverse(search_term, dictionaries=None, trace=False):
         dictionaries = ['csd', 'pollex', 'stedt', 'clics', 'dss']
     meanings = {}
     if 'csd' in dictionaries:
+        logging.log(logging.INFO, "starting csd")
         meanings['csd'] = clean_shift(csd.reverse(search_term))
+        logging.log(logging.INFO, "exiting csd")
     if 'pollex' in dictionaries:
+        logging.log(logging.INFO, "starting pollex")
         meanings['pollex'] = clean_shift(pollex.reverse(search_term))
+        logging.log(logging.INFO, "exiting pollex")
     if 'stedt' in dictionaries:
+        logging.log(logging.INFO, "starting stedt")
         meanings['stedt'] = clean_shift(stedt.reverse(search_term))
+        logging.log(logging.INFO, "exiting stedt")
     if 'clics' in dictionaries:
+        logging.log(logging.INFO, "starting clics")
         meanings['clics'] = clean_shift(clics.reverse(search_term))
+        logging.log(logging.INFO, "exiting clics")
     if 'dss' in dictionaries:
+        logging.log(logging.INFO, "starting dss")
         meanings['dss'] = clean_shift(dss.reverse(search_term))
+        logging.log(logging.INFO, "exiting dss")
     if trace:
         return meanings
 
