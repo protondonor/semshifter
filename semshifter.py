@@ -14,6 +14,7 @@ install_cache(cache_name='semshift', backend='sqlite', expire_after=604800)
 
 
 def semshift(search_term, dictionaries=None, trace=False):
+    logging.log(logging.INFO, f'shifting {search_term}')
     if dictionaries is None:
         dictionaries = ['csd', 'pollex', 'prototai', 'clics', 'stedt', 'dss']
     meanings = {}
