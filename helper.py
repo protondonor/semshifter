@@ -1,5 +1,7 @@
+import math
 import re
 
+import langid
 import requests
 from requests_html import AsyncHTMLSession
 from requests_cache import CacheMixin
@@ -54,4 +56,5 @@ def remove_suffix(string, suffix):
 
 
 def french(entry):
-    return re.search('[àèìòùâêîôûœ]', entry) is not None
+    lang, confidence = langid.classify(entry)
+    return lang == 'fr' and math.fabs(confidence) > 50

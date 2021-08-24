@@ -2,3 +2,4 @@ requests~=2.26.0
 requests_html
 lxml
 requests_cache
+langid
