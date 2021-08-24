@@ -1,0 +1,6 @@
+dist/
+semshifter.egg-info/
+venv/
+tests/
+*.sqlite
+*.sqlite-journal
