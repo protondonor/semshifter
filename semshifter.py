@@ -10,7 +10,7 @@ import logging
 from helper import clean_shift
 
 dss = datsemshift.DatSemShift()
-install_cache(cache_name='semshift', backend='sqlite', expire_after=604800)
+install_cache(cache_name='semshift', backend='sqlite', expire_after=31536000)
 
 
 def semshift(search_term, dictionaries=None, trace=False):
