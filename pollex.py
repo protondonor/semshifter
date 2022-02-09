@@ -4,7 +4,7 @@ from lxml import html
 from helper import french
 
 def semshift(search_term, include_french=False):
-    r = requests.get(f'https://pollex.shh.mpg.de/search/?query={search_term}&field=protoform')
+    r = requests.get(f'https://pollex.shh.mpg.de/search/?query=%5Cb{search_term}%5Cb&field=protoform')
     tree = html.fromstring(r.content)
     meanings = []
     for elem in tree.xpath('/html/body/div/div[3]/table/tr/td/a'):
@@ -17,7 +17,7 @@ def semshift(search_term, include_french=False):
 
 
 def reverse(search_term, include_french=False):
-    r = requests.get(f'https://pollex.shh.mpg.de/search/?query={search_term}&field=entry')
+    r = requests.get(f'https://pollex.shh.mpg.de/search/?query=%5Cb{search_term}%5Cb&field=entry')
     tree = html.fromstring(r.content)
     meanings = []
     urls = set([f"https://pollex.shh.mpg.de{elem.attrib['href']}"
