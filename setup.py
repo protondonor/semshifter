@@ -1,2 +1,2 @@
 from setuptools import setup
-setup(name='semshifter', version='0.0.4')
+setup(name='semshifter', version='0.0.5')
