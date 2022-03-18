@@ -52,6 +52,8 @@ def reverse(search_term):
 
     for r2 in results:
         tree2 = html.fromstring(r2.content)
-        meanings.append(trim(tree2.xpath('/html/body/table[1]/tr/td/h1/text()')[0]))
+        trimmed = trim(tree2.xpath('/html/body/table[1]/tr/td/h1/text()')[0])
+        if trimmed is not None:
+            meanings.append(trimmed)
 
     return meanings
