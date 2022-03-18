@@ -1,5 +1,5 @@
 requests~=2.26.0
 requests_html
 lxml
-requests_cache
+requests_cache~=0.9.1
 langid
