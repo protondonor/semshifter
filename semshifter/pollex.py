@@ -1,7 +1,7 @@
 import requests
 from lxml import html
 
-from helper import french
+from semshifter.helper import french
 
 def semshift(search_term, include_french=False):
     try:

@@ -1,7 +1,7 @@
 import requests, json
 from lxml import html
 
-from helper import multi_request
+from semshifter.helper import multi_request
 
 
 def semshift(search_term):

@@ -1,6 +1,6 @@
 import requests, json
 from lxml import html
-from helper import multi_request, first_numeric
+from semshifter.helper import multi_request, first_numeric
 from string import ascii_uppercase as UPPER
 
 

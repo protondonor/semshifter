@@ -1,4 +1,4 @@
-from helper import multi_request
+from semshifter.helper import multi_request
 from urllib.parse import quote
 import requests
 from lxml import html

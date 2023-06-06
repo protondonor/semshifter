@@ -1,13 +1,13 @@
 from requests_cache import install_cache
 
-import clics
-import csd
-import datsemshift
-import pollex
-import prototai
-import stedt
+import semshifter.clics as clics
+import semshifter.csd as csd
+import semshifter.datsemshift as datsemshift
+import semshifter.pollex as pollex
+import semshifter.prototai as prototai
+import semshifter.stedt as stedt
 import logging
-from helper import clean_shift
+from semshifter.helper import clean_shift
 
 dss = datsemshift.DatSemShift()
 install_cache(cache_name='semshift', backend='sqlite', expire_after=604800)
